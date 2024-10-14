@@ -14,8 +14,4 @@ except ValueError as e:
 # Test the summation function
 print(utils.summ_numbers(10, 2))  # Output: 12
 
-
-# changes from third_branch
-print(summ_numbers(5,10))
-
-print(summ_numbers(2,10))
+print(utils.summ_numbers(15, 20))  # Output: 35
