@@ -11,3 +11,5 @@ except ValueError as e:
 
 # Test the summation function
 print(utils.summ_numbers(10, 2))  # Output: 12
+
+print(utils.summ_numbers(15, 20))  # Output: 35
