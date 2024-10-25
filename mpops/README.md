@@ -4,7 +4,39 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-A short description of the project.
+## Клонирование репозитория
+
+```
+git clone https://github.com/EvaWertenberger/mlops_hw.git
+```
+
+## Установка виртуального окружения
+
+```
+1. python -m venv venv
+2. source venv/bin/activate  # Linux
+3. venv\Scripts\activate  # Windows
+```
+Если будут ошибки при выполнении команды 2, выполнить команду `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process` для изменения политики выполнения скриптов в текущем сеансе
+
+## Установка зависимостей
+
+```
+pip install -r requirements.txt
+```
+
+## Установка хуков
+
+```
+pre-commit install
+```
+
+## Скрипт для отладки линтера и тайп-чекера
+
+```
+скрипт: crush_script.py
+данные для запуска: data_list.py
+```
 
 ## Project Organization
 
@@ -56,6 +88,3 @@ A short description of the project.
     │
     └── plots.py                <- Code to create visualizations
 ```
-
---------
-

@@ -3,5 +3,6 @@ def div_numbers(a: int, b: int) -> int:
         raise ValueError("b cannot be zero")
     return a // b
 
-def summ_numbers(a: int, b:int) -> int:
+
+def summ_numbers(a: int, b: int) -> int:
     return a + b
