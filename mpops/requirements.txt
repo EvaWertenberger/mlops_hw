@@ -7,14 +7,14 @@ jupyterlab
 loguru
 matplotlib
 mkdocs
+mypy
 notebook
 numpy
 pandas
 pip
+pre-commit
 python-dotenv
 scikit-learn
 tqdm
 typer
 -e .
-mypy
-pre-commit
