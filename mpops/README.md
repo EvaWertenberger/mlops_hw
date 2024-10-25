@@ -25,6 +25,12 @@ git clone https://github.com/EvaWertenberger/mlops_hw.git
 pip install -r requirements.txt
 ```
 
+## Установка хуков
+
+```
+pre-commit install
+```
+
 ## Скрипт для отладки линтера и тайп-чекера
 
 ```
