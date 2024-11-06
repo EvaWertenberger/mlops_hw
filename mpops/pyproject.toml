@@ -20,25 +20,24 @@ classifiers = [
 python = "~=3.12"
 awscli = "*"
 black = "*"
-flake8 = "*"
 ipython = "*"
 isort = "*"
 jupyterlab = "*"
 loguru = "*"
 matplotlib = "*"
 mkdocs = "*"
-mypy = "*"
 notebook = "*"
 numpy = "*"
 pandas = "*"
-pre-commit = "*"
 python-dotenv = "*"
 scikit-learn = "*"
 tqdm = "*"
 typer = "*"
-
-[tool.poetry.group.dev.dependencies]
+boto3 = "^1.35.54"
+flake8 = "^7.1.1"
+mypy = "^1.13.0"
 pre-commit = "^4.0.1"
+types-boto3 = "^1.0.2"
 
 [tool.black]
 line-length = 99

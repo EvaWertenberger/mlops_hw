@@ -10,19 +10,16 @@
 git clone https://github.com/EvaWertenberger/mlops_hw.git
 ```
 
-## Установка виртуального окружения
+## Переход в рабочую директорию
 
 ```
-1. python -m venv venv
-2. source venv/bin/activate  # Linux
-3. venv\Scripts\activate  # Windows
+cd mpops
 ```
-Если будут ошибки при выполнении команды 2, выполнить команду `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process` для изменения политики выполнения скриптов в текущем сеансе
 
 ## Установка зависимостей
 
 ```
-pip install -r requirements.txt
+poetry install
 ```
 
 ## Установка хуков
@@ -31,11 +28,27 @@ pip install -r requirements.txt
 pre-commit install
 ```
 
-## Скрипт для отладки линтера и тайп-чекера
+## Запуск контейнера Docker с minio
 
 ```
-скрипт: crush_script.py
-данные для запуска: data_list.py
+docker-compose up -d
+```
+
+## Установка прав доступа
+
+```
+chmod +x lr3/bash_scripts/*.sh lr3/run_pipeline.sh
+```
+
+## Запуск пайплайна
+
+```
+./lr3/run_pipeline.sh
+```
+Для корректной работы poetry в случае, если в глобальных путях находится python3, необходимо создать ссылку:
+
+```
+sudo ln -s $(which python3) /usr/local/bin/python
 ```
 
 ## Project Organization
