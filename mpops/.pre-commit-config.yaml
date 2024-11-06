@@ -12,4 +12,4 @@ repos:
     rev: v1.11.2
     hooks:
       - id: mypy
-        args: [--exclude=^(references|__pycache__)/, --disallow-subclassing-any]
+        args: [--exclude=__pycache__, --disallow-subclassing-any, --ignore-missing-imports]
