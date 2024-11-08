@@ -1,5 +1,7 @@
 awscli
 black
+boto3
+types-boto3
 flake8
 ipython
 isort
