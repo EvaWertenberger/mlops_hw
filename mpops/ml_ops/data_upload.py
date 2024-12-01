@@ -1,12 +1,12 @@
 import argparse
 from dotenv import load_dotenv
 
-from lr3.create_bucket import create_bucket, create_client
+from ml_ops.create_bucket import create_bucket, create_client
 
 load_dotenv()
 
 argparser = argparse.ArgumentParser()
-argparser.add_argument("-b", "--bucket", required=True, help="S3 bucket name")
+argparser.add_argument("-b", "--bucket", required=False, help="S3 bucket name")
 argparser.add_argument("-f", "--file_path", required=True, help="File path to upload")
 argparser.add_argument("-d", "--data_path", required=True, help="Data file name in S3")
 argparser.add_argument(

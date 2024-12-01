@@ -16,34 +16,22 @@ git clone https://github.com/EvaWertenberger/mlops_hw.git
 cd mpops
 ```
 
-## Установка зависимостей
-
-```
-poetry install
-```
-
 ## Установка хуков
 
 ```
 pre-commit install
 ```
 
-## Запуск контейнера Docker с minio
-
-```
-docker-compose up -d
-```
-
 ## Установка прав доступа
 
 ```
-chmod +x lr3/bash_scripts/*.sh lr3/run_pipeline.sh
+chmod +x bash_scripts/*.sh run_pipeline.sh
 ```
 
 ## Запуск пайплайна
 
 ```
-./lr3/run_pipeline.sh
+./run_pipeline.sh
 ```
 Для корректной работы poetry в случае, если в глобальных путях находится python3, необходимо создать ссылку:
 

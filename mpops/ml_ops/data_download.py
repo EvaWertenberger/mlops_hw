@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import argparse
 
-from lr3.create_bucket import create_client
+from ml_ops.create_bucket import create_client
 
 load_dotenv()
 
