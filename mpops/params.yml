@@ -1,0 +1,19 @@
+random_search:
+  - kernel: 
+      - rbf
+    C_rbf:
+      type: loguniform
+      range: [0.01, 100]
+    gamma:
+      type: loguniform
+      range: [0.01, 1.0]
+
+  - kernel:
+      - poly
+    degree: 
+      - 2
+      - 3
+      - 4
+    C_poly:
+      type: loguniform
+      range: [0.1, 10]

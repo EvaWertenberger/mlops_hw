@@ -9,9 +9,11 @@ jupyterlab
 loguru
 matplotlib
 mkdocs
+mlflow
 mypy
 notebook
 numpy
+omegaconf
 pandas
 pip
 pre-commit

@@ -1,6 +1,10 @@
 import argparse
 from typing import List
 import pandas as pd
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, OneHotEncoder, OrdinalEncoder
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
 
 
 argparser = argparse.ArgumentParser()
@@ -70,13 +74,64 @@ def remove_outliers(data, labels):
     return data
 
 
+def preprocess_data_sklearn(df: pd.DataFrame) -> pd.DataFrame:
+    num_pipe_standard = Pipeline([
+        ('scaler', StandardScaler())
+    ])
+    num_standard = [
+        'AccountLength',
+        'TotalDayCalls',
+        'TotalDayCharge',
+        'TotalEveCalls',
+        'TotalEveCharge',
+        'TotalNightCalls',
+        'TotalNightCharge',
+        'TotalIntlCalls',
+        'TotalIntlCharge'
+    ]
+
+    num_pipe_norm = Pipeline([
+        ('norm', MinMaxScaler())
+    ])
+    num_norm = ['NumberVmailMessages', 'TotalIntlCalls', 'NumberCustomerServiceCalls']
+
+    cat_pipe_ohe = Pipeline([
+        ('encoder', OneHotEncoder(drop='if_binary', handle_unknown='ignore', sparse_output=False))
+    ])
+    cat_style_ohe = ['AreaCode']
+
+    cat_pipe_ord = Pipeline([
+        ('encoder', OrdinalEncoder())
+    ])
+    cat_ord = ['State', 'InternationalPlan', 'VoiceMailPlan', 'Churn']
+
+    preprocessors = ColumnTransformer(transformers=[
+        ('num_standard', num_pipe_standard, num_standard),
+        ('num_norm', num_pipe_norm, num_norm),
+        ('cat_style_ohe', cat_pipe_ohe, cat_style_ohe),
+        ('cat_ord', cat_pipe_ord, cat_ord),
+    ])
+
+    preprocessors.fit(df)
+    cat_ohe_names = preprocessors.transformers_[2][1]['encoder'].get_feature_names_out(cat_style_ohe)
+
+    columns = np.hstack([num_standard,
+                        num_norm,
+                        cat_ohe_names,
+                        cat_ord])
+    df_transformed = preprocessors.transform(df)
+    df_transformed = pd.DataFrame(df_transformed, columns=columns)
+    return df_transformed
+
+
 def process_data(input_path: str, output_path: str):
     df = load_csv(input_path)
     if df is not None:
         df = drop_columns(df)
         num_columns = collect_numerical_columns(df)
         df_clean = remove_outliers(df, num_columns)
-        save_csv(df_clean, output_path)
+        df_transformed = preprocess_data_sklearn(df_clean)
+        save_csv(df_transformed, output_path)
 
 
 if __name__ == "__main__":
