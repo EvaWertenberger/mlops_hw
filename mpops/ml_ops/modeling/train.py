@@ -19,13 +19,7 @@ import matplotlib.pyplot as plt
 argparser = argparse.ArgumentParser()
 argparser.add_argument("-p", "--params", required=True, help="File path to params")
 argparser.add_argument("-d", "--data_path", required=True, help="File path to data")
-
-mlflow.set_tracking_uri("http://localhost:5000")
-try:
-    mlflow.create_experiment("Experiment", artifact_location="s3://mlflow")
-except mlflow.MlflowException as e:
-    print(e)
-mlflow.set_experiment("Experiment")
+argparser.add_argument("-e", "--experiment_name", required=True, help="Name of the experiment")
 
 
 def load_data(file_path: str):
@@ -87,8 +81,8 @@ def train_model_SVC(X_train, X_test, y_train, y_test, params):
         with open(report_path, "w") as f:
             json.dump(report, f)
 
-        create_bucket("mlflow")
-        upload_file("mlflow", f'artifacts/{mlflow.active_run().info.run_id}/classification_report.json', report_path)
+        create_bucket(f"{EXPERIMENT_NAME}-report")
+        upload_file(f"{EXPERIMENT_NAME}-report", f'artifacts/{mlflow.active_run().info.run_id}/classification_report.json', report_path)
 
         fprate, tprate, _ = roc_curve(y_test, svc.predict_proba(X_test)[:, 1])
         plt.figure()
@@ -101,7 +95,7 @@ def train_model_SVC(X_train, X_test, y_train, y_test, params):
         figure_path = "reports/figures/roc_curve.png"
         plt.savefig(figure_path)
 
-        upload_file("mlflow", f'artifacts/{mlflow.active_run().info.run_id}/roc_curve.png', figure_path)
+        upload_file(f"{EXPERIMENT_NAME}-report", f'artifacts/{mlflow.active_run().info.run_id}/roc_curve.png', figure_path)
 
         model_name = (f'SVC_'
                       f'{SVCbest["gamma"]}_'
@@ -110,8 +104,8 @@ def train_model_SVC(X_train, X_test, y_train, y_test, params):
                       f'.joblib')
 
         dump(SVC_search.best_estimator_, os.path.join("models", model_name))
-        create_bucket("model")
-        upload_file("model", f'experiments/{mlflow.active_run().info.run_id}/{model_name}', f"models/{model_name}")
+        create_bucket(f"{EXPERIMENT_NAME}-model")
+        upload_file(f"{EXPERIMENT_NAME}-model", f'experiments/{mlflow.active_run().info.run_id}/{model_name}', f"models/{model_name}")
 
 
 def calculate_metric(model_pipe, X, y, metric=f1_score):
@@ -132,10 +126,16 @@ def prepare_params(**kwargs):
 
 if __name__ == "__main__":
     args = argparser.parse_args()
+    EXPERIMENT_NAME = args.experiment_name
 
     X_train, X_val, y_train, y_val = load_data(args.data_path)
     params = prepare_params(**OmegaConf.load(args.params))
 
-    mlflow.set_experiment("Experiment")
+    mlflow.set_tracking_uri("http://localhost:5000")
+    try:
+        mlflow.create_experiment(EXPERIMENT_NAME, artifact_location=f"s3: //{EXPERIMENT_NAME}-report")
+    except mlflow.MlflowException as e:
+        print(e)
+    mlflow.set_experiment(EXPERIMENT_NAME)
 
     train_model_SVC(X_train, X_val, y_train, y_val, params['random_search'])
