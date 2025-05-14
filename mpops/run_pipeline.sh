@@ -15,5 +15,5 @@ bash bash_scripts/process.sh
 # 4. Загрузка обработанного файла в S3
 bash bash_scripts/upload_processed.sh
 
-# 5. Обучение и сохранение модели SVC
-bash bash_scripts/train.sh
+# 5. Запуск экспериментов и загрузка результатов в s3
+bash bash_scripts/run_experiments.sh
