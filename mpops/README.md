@@ -28,6 +28,11 @@ pre-commit install
 chmod +x bash_scripts/*.sh run_pipeline.sh
 ```
 
+## Сборка образа для экспериментов
+```
+docker build -t training-image .
+```
+
 ## Запуск пайплайна
 
 ```
