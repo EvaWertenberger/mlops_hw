@@ -20,6 +20,8 @@ services:
       retries: 3
     env_file:
       - .env
+    networks:
+      - host
 
   mlflow:
     image: ghcr.io/mlflow/mlflow:v2.15.0
@@ -36,6 +38,12 @@ services:
       MLFLOW_S3_ENDPOINT_URL: http://minio:9000
     env_file:
       - .env
+    networks:
+      - host
 
 volumes:
   minio_data:
+
+networks:
+  host:
+    driver: bridge
